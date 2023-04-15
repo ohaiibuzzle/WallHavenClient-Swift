@@ -11,6 +11,8 @@
 		AB4E49C029EA671600A63FA8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E49BF29EA671600A63FA8 /* ContentView.swift */; };
 		AB4E49C229EA671700A63FA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB4E49C129EA671700A63FA8 /* Assets.xcassets */; };
 		AB4E49C629EA671700A63FA8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB4E49C529EA671700A63FA8 /* Preview Assets.xcassets */; };
+		AB4E49CD29EAB34400A63FA8 /* WallpaperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E49CC29EAB34400A63FA8 /* WallpaperView.swift */; };
+		AB4E49CF29EAB3B000A63FA8 /* WallHavenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E49CE29EAB3B000A63FA8 /* WallHavenAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,8 +20,9 @@
 		AB4E49BD29EA671600A63FA8 /* WallHavenClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallHavenClientApp.swift; sourceTree = "<group>"; };
 		AB4E49BF29EA671600A63FA8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AB4E49C129EA671700A63FA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AB4E49C329EA671700A63FA8 /* WallHavenClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WallHavenClient.entitlements; sourceTree = "<group>"; };
 		AB4E49C529EA671700A63FA8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AB4E49CC29EAB34400A63FA8 /* WallpaperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperView.swift; sourceTree = "<group>"; };
+		AB4E49CE29EAB3B000A63FA8 /* WallHavenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallHavenAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +57,10 @@
 			children = (
 				AB4E49BD29EA671600A63FA8 /* WallHavenClientApp.swift */,
 				AB4E49BF29EA671600A63FA8 /* ContentView.swift */,
+				AB4E49CC29EAB34400A63FA8 /* WallpaperView.swift */,
 				AB4E49C129EA671700A63FA8 /* Assets.xcassets */,
-				AB4E49C329EA671700A63FA8 /* WallHavenClient.entitlements */,
 				AB4E49C429EA671700A63FA8 /* Preview Content */,
+				AB4E49CE29EAB3B000A63FA8 /* WallHavenAPI.swift */,
 			);
 			path = WallHavenClient;
 			sourceTree = "<group>";
@@ -76,6 +80,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB4E49C929EA671700A63FA8 /* Build configuration list for PBXNativeTarget "WallHavenClient" */;
 			buildPhases = (
+				AB4E49D229EAF1DB00A63FA8 /* ShellScript */,
 				AB4E49B629EA671600A63FA8 /* Sources */,
 				AB4E49B729EA671600A63FA8 /* Frameworks */,
 				AB4E49B829EA671600A63FA8 /* Resources */,
@@ -134,12 +139,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AB4E49D229EAF1DB00A63FA8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if /opt/homebrew/bin/swiftlint --help >/dev/null; then\n  /opt/homebrew/bin/swiftlint\nelse\n  echo \"warning: SwiftLint not installed by brew\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB4E49B629EA671600A63FA8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				AB4E49C029EA671600A63FA8 /* ContentView.swift in Sources */,
+				AB4E49CF29EAB3B000A63FA8 /* WallHavenAPI.swift in Sources */,
+				AB4E49CD29EAB34400A63FA8 /* WallpaperView.swift in Sources */,
 				AB4E49BE29EA671600A63FA8 /* WallHavenClientApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,8 +295,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WallHavenClient/Preview Content\"";
 				DEVELOPMENT_TEAM = PSAZVTU7XU;
 				ENABLE_HARDENED_RUNTIME = YES;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save your images duh";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -279,10 +309,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ohaiibuzzle.WallHavenClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -305,8 +335,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WallHavenClient/Preview Content\"";
 				DEVELOPMENT_TEAM = PSAZVTU7XU;
 				ENABLE_HARDENED_RUNTIME = YES;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save your images duh";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -317,10 +349,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.ohaiibuzzle.WallHavenClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
