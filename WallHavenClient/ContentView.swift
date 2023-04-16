@@ -55,6 +55,9 @@ struct ContentView: View {
                     .frame(width: 200)
             }
         }
+        .onAppear {
+            search()
+        }
         .padding()
         .sheet(isPresented: $searchOptionsShown) {
             SearchOptionsView(wallHavenAPISearchParameters: $wallHavenAPISearchParameters,

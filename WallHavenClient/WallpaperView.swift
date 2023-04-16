@@ -14,7 +14,8 @@ import UIKit
 #endif
 import WebViewKit
 
-struct WallpaperImage {
+struct WallpaperImage: Identifiable {
+    let id = UUID()
     let properties: WallHavenImage
     let image: Image
 }
@@ -49,7 +50,6 @@ struct WallpaperView: View {
     @ObservedObject var wallpaperObservable: WallpaperObservable
     @State var downloadingCount = 0
     @State var selectedImage: WallpaperImage?
-    @State var isPreviewShown = false
 
     var body: some View {
         VStack {
@@ -67,7 +67,6 @@ struct WallpaperView: View {
                             }
                             .onTapGesture {
                                 selectedImage = wallpaperImage
-                                isPreviewShown = true
                             }
                             .contextMenu {
                                 VStack {
@@ -157,35 +156,25 @@ struct WallpaperView: View {
                 .padding()
             }
         }
-        .sheet(isPresented: $isPreviewShown) {
-            Group {
-                if selectedImage != nil {
-                    // Set the preview portion to be between 60-80% of the display width
-                    #if os(macOS)
-                    let displaySize = NSScreen.main?.visibleFrame.size ?? CGSize(width: 1920, height: 1080)
-                    #elseif os(iOS)
-                    let displaySize = UIScreen.main.bounds.size
-                    #endif
-                    let width = displaySize.width * 0.6
-                    let height = displaySize.height * 0.6
-                    let url = URL(string: selectedImage!.properties.path)
-                    VStack {
-                        WebView(url: url)
-                        Spacer()
-                        Button("Dismiss") {
-                            isPreviewShown.toggle()
-                        }
-                    }
-                    .frame(width: CGFloat(width), height: CGFloat(height))
-                } else {
-                    VStack {
-                        Text("Unable to preview image: \(selectedImage?.properties.path ?? "nil")")
-                        Spacer()
-                        Button("Dismiss") {
-                            isPreviewShown.toggle()
-                        }
+        .sheet(item: $selectedImage) { item in
+            VStack {
+                // Set the preview portion to be between 60-80% of the display width
+                #if os(macOS)
+                let displaySize = NSScreen.main?.visibleFrame.size ?? CGSize(width: 1920, height: 1080)
+                #elseif os(iOS)
+                let displaySize = UIScreen.main.bounds.size
+                #endif
+                let width = displaySize.width * 0.6
+                let height = displaySize.height * 0.6
+                let url = URL(string: item.properties.path)
+                VStack {
+                    WebView(url: url)
+                    Spacer()
+                    Button("Dismiss") {
+                        selectedImage = nil
                     }
                 }
+                .frame(width: CGFloat(width), height: CGFloat(height))
             }
             .padding()
         }
