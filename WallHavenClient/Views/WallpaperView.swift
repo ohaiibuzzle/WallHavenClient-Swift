@@ -169,14 +169,17 @@ struct WallpaperView: View {
                 let url = URL(string: item.properties.path)
                 VStack {
                     WebView(url: url)
+                        .frame(width: CGFloat(width), height: CGFloat(height))
+                        .padding()
                     Spacer()
                     Button("Dismiss") {
                         selectedImage = nil
                     }
+                    .buttonBorderShape(.automatic)
+                    .buttonStyle(.borderedProminent)
                 }
-                .frame(width: CGFloat(width), height: CGFloat(height))
+                .padding()
             }
-            .padding()
         }
     }
 }
