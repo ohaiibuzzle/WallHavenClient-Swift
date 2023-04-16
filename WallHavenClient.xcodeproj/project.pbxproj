@@ -38,6 +38,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB10315229EBCD0E00E0E1C7 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				AB4E49CE29EAB3B000A63FA8 /* WallHavenAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		AB10315329EBCD1C00E0E1C7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB4E49BF29EA671600A63FA8 /* ContentView.swift */,
+				AB4E49CC29EAB34400A63FA8 /* WallpaperView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AB4E49B129EA671600A63FA8 = {
 			isa = PBXGroup;
 			children = (
@@ -57,12 +74,11 @@
 		AB4E49BC29EA671600A63FA8 /* WallHavenClient */ = {
 			isa = PBXGroup;
 			children = (
+				AB10315329EBCD1C00E0E1C7 /* Views */,
+				AB10315229EBCD0E00E0E1C7 /* API */,
 				AB4E49BD29EA671600A63FA8 /* WallHavenClientApp.swift */,
-				AB4E49BF29EA671600A63FA8 /* ContentView.swift */,
-				AB4E49CC29EAB34400A63FA8 /* WallpaperView.swift */,
 				AB4E49C129EA671700A63FA8 /* Assets.xcassets */,
 				AB4E49C429EA671700A63FA8 /* Preview Content */,
-				AB4E49CE29EAB3B000A63FA8 /* WallHavenAPI.swift */,
 			);
 			path = WallHavenClient;
 			sourceTree = "<group>";
