@@ -59,6 +59,9 @@ struct ContentView: View {
         .sheet(isPresented: $searchOptionsShown) {
             SearchOptionsView(wallHavenAPISearchParameters: $wallHavenAPISearchParameters,
                               searchOptionsShown: $searchOptionsShown)
+            .onDisappear {
+                search()
+            }
         }
     }
 
@@ -108,44 +111,58 @@ struct SearchOptionsView: View {
     var body: some View {
         VStack {
             ScrollView {
-                Group {
-                    HStack {
+                VStack(alignment: .leading) {
+                    VStack(alignment: .leading) {
                         Text("Categories:")
+                            .font(.title3)
+                            .bold()
                         Spacer()
-                        Toggle("General", isOn: $wallHavenAPISearchParameters.categoryGeneral)
-                        Toggle("Anime", isOn: $wallHavenAPISearchParameters.categoryAnime)
-                        Toggle("People", isOn: $wallHavenAPISearchParameters.categoryPeople)
-                    }
-                    .padding()
-                }
-                Group {
-                    HStack {
-                        Text("Purity:")
-                        Spacer()
-                        Toggle("SFW", isOn: $wallHavenAPISearchParameters.puritySFW)
-                        Toggle("Sketchy", isOn: $wallHavenAPISearchParameters.puritySketchy)
-                        Toggle("NSFW", isOn: $wallHavenAPISearchParameters.purityWhy)
-                            .disabled(apiKey.isEmpty)
-                    }
-                    .padding()
-                }
-                Group {
-                    HStack {
-                        Text("Sorting:")
-                        Spacer()
-                        Picker("", selection: $wallHavenAPISearchParameters.sorting) {
-                            Text("Relevance").tag(WallHavenSorting.relevance)
-                            Text("Random").tag(WallHavenSorting.random)
-                            Text("Date Added").tag(WallHavenSorting.dateAdded)
-                            Text("Views").tag(WallHavenSorting.views)
-                            Text("Favorites").tag(WallHavenSorting.favorites)
+                        HStack {
+                            Toggle("General", isOn: $wallHavenAPISearchParameters.categoryGeneral)
+                                .padding()
+                            Spacer()
+                            Toggle("Anime", isOn: $wallHavenAPISearchParameters.categoryAnime)
+                                .padding()
+                            Spacer()
+                            Toggle("People", isOn: $wallHavenAPISearchParameters.categoryPeople)
                         }
-                        .pickerStyle(MenuPickerStyle())
+                        .padding()
                     }
-                    .padding()
+                    VStack(alignment: .leading) {
+                        Text("Purity:")
+                            .font(.title3)
+                            .bold()
+                        Spacer()
+                        HStack {
+                            Toggle("SFW", isOn: $wallHavenAPISearchParameters.puritySFW)
+                                .padding()
+                            Spacer()
+                            Toggle("Sketchy", isOn: $wallHavenAPISearchParameters.puritySketchy)
+                                .padding()
+                            Spacer()
+                            Toggle("NSFW", isOn: $wallHavenAPISearchParameters.purityWhy)
+                                .disabled(apiKey.isEmpty)
+                        }
+                        .padding()
+                    }
+                    VStack {
+                        HStack {
+                            Text("Sorting:")
+                            Spacer()
+                            Picker("", selection: $wallHavenAPISearchParameters.sorting) {
+                                Text("Relevance").tag(WallHavenSorting.relevance)
+                                Text("Random").tag(WallHavenSorting.random)
+                                Text("Date Added").tag(WallHavenSorting.dateAdded)
+                                Text("Views").tag(WallHavenSorting.views)
+                                Text("Favorites").tag(WallHavenSorting.favorites)
+                            }
+                            .pickerStyle(DefaultPickerStyle())
+                        }
+                        .padding()
+                    }
+                    TextField("API Key", text: $apiKey)
+                        .padding()
                 }
-                TextField("API Key", text: $apiKey)
-                    .padding()
             }
             Button("Done") {
                 WallHavenAPIClient.shared = WallHavenAPIClient(apiKey: apiKey)
@@ -153,7 +170,7 @@ struct SearchOptionsView: View {
             }
         }
         .padding()
-        .frame(width: 500, height: 400)
+        .frame(width: 600, height: 600)
     }
 }
 

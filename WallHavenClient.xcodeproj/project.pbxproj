@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB37CD5429EB1C6700263ABF /* WebViewKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB37CD5329EB1C6700263ABF /* WebViewKit */; };
 		AB4E49BE29EA671600A63FA8 /* WallHavenClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E49BD29EA671600A63FA8 /* WallHavenClientApp.swift */; };
 		AB4E49C029EA671600A63FA8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E49BF29EA671600A63FA8 /* ContentView.swift */; };
 		AB4E49C229EA671700A63FA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB4E49C129EA671700A63FA8 /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB37CD5429EB1C6700263ABF /* WebViewKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +92,9 @@
 			dependencies = (
 			);
 			name = WallHavenClient;
+			packageProductDependencies = (
+				AB37CD5329EB1C6700263ABF /* WebViewKit */,
+			);
 			productName = WallHavenClient;
 			productReference = AB4E49BA29EA671600A63FA8 /* WallHavenClient.app */;
 			productType = "com.apple.product-type.application";
@@ -118,6 +123,9 @@
 				Base,
 			);
 			mainGroup = AB4E49B129EA671600A63FA8;
+			packageReferences = (
+				AB37CD5229EB1C6700263ABF /* XCRemoteSwiftPackageReference "WebViewKit" */,
+			);
 			productRefGroup = AB4E49BB29EA671600A63FA8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -386,6 +394,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB37CD5229EB1C6700263ABF /* XCRemoteSwiftPackageReference "WebViewKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/WebViewKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB37CD5329EB1C6700263ABF /* WebViewKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB37CD5229EB1C6700263ABF /* XCRemoteSwiftPackageReference "WebViewKit" */;
+			productName = WebViewKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB4E49B229EA671600A63FA8 /* Project object */;
 }
