@@ -44,10 +44,12 @@ struct ContentView: View {
                     Button("<") {
                         previousPage()
                     }
+                    .buttonStyle(.bordered)
                     Text("Page \(wallHavenAPISearchParameters.page) of \(wallHavenAPIMeta?.lastPage ?? 10)")
                     Button(">") {
                         nextPage()
                     }
+                    .buttonStyle(.bordered)
                 }
                 Spacer()
                 // Slider to adjust max width of images
