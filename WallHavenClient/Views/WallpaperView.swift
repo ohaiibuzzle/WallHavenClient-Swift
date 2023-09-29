@@ -12,7 +12,7 @@ import AppKit
 #elseif os(iOS)
 import UIKit
 #endif
-import WebViewKit
+import QuickLook
 
 struct WallpaperImage: Identifiable {
     let id = UUID()
@@ -31,11 +31,11 @@ class WallpaperObservable: ObservableObject {
                 print("Error downloading image")
                 return
             }
-            #if os(macOS)
+#if os(macOS)
             let image = Image(nsImage: NSImage(data: data) ?? NSImage())
-            #elseif os(iOS)
+#elseif os(iOS)
             let image = Image(uiImage: UIImage(data: data) ?? UIImage())
-            #endif
+#endif
             let wallpaperImage = WallpaperImage(properties: whproperty, image: image)
             Task { @MainActor in
                 self.imagesToDisplay.append(wallpaperImage)
@@ -49,7 +49,9 @@ struct WallpaperView: View {
     @Binding var maxWidth: CGFloat
     @ObservedObject var wallpaperObservable: WallpaperObservable
     @State var downloadingCount = 0
-    @State var selectedImage: WallpaperImage?
+    @State var selectedImage: URL?
+
+    let temporaryDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
 
     var body: some View {
         VStack {
@@ -63,10 +65,25 @@ struct WallpaperView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(maxWidth: maxWidth, maxHeight: maxWidth)
                                     .padding()
-
                             }
                             .onTapGesture {
-                                selectedImage = wallpaperImage
+                                if let url = URL(string: wallpaperImage.properties.path) {
+                                    let task = URLSession.shared.dataTask(with: url) { data, _, error in
+                                        guard let data = data, error == nil else {
+                                            print("Error downloading image")
+                                            return
+                                        }
+                                        if let file = wallpaperImage.properties.path.components(separatedBy: "/").last {
+                                            do {
+                                                try data.write(to: temporaryDir.appendingPathComponent(file))
+                                                selectedImage = temporaryDir.appendingPathComponent(file)
+                                            } catch {
+                                                print("Failed to fetch temp files")
+                                            }
+                                        }
+                                    }
+                                    task.resume()
+                                }
                             }
                             .contextMenu {
                                 VStack {
@@ -78,7 +95,7 @@ struct WallpaperView: View {
                                                 print("Error downloading image")
                                                 return
                                             }
-                                            #if os(macOS)
+#if os(macOS)
                                             let image = NSImage(data: data) ?? NSImage()
                                             // Prompt user to save image
                                             Task { @MainActor in
@@ -97,17 +114,17 @@ struct WallpaperView: View {
                                                     }
                                                 }
                                             }
-                                            #elseif os(iOS)
+#elseif os(iOS)
                                             let image = UIImage(data: data) ?? UIImage()
                                             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                                            #endif
+#endif
                                             downloadingCount -= 1
                                         }
                                         task.resume()
                                     }, label: {
                                         Label("Save Image", systemImage: "square.and.arrow.down")
                                     })
-                                    #if os(macOS)
+#if os(macOS)
                                     Button(action: {
                                         downloadingCount += 1
                                         let url = URL(string: wallpaperImage.properties.path)!
@@ -139,7 +156,7 @@ struct WallpaperView: View {
                                     }, label: {
                                         Label("Set As Desktop Wallpaper", systemImage: "display.and.arrow.down")
                                     })
-                                    #endif
+#endif
                                 }
                             }
                         }
@@ -156,30 +173,6 @@ struct WallpaperView: View {
                 .padding()
             }
         }
-        .sheet(item: $selectedImage) { item in
-            VStack {
-                // Set the preview portion to be between 60-80% of the display width
-                #if os(macOS)
-                let displaySize = NSScreen.main?.visibleFrame.size ?? CGSize(width: 1920, height: 1080)
-                #elseif os(iOS)
-                let displaySize = UIScreen.main.bounds.size
-                #endif
-                let width = displaySize.width * 0.6
-                let height = displaySize.height * 0.6
-                let url = URL(string: item.properties.path)
-                VStack {
-                    WebView(url: url)
-                        .frame(width: CGFloat(width), height: CGFloat(height))
-                        .padding()
-                    Spacer()
-                    Button("Dismiss") {
-                        selectedImage = nil
-                    }
-                    .buttonBorderShape(.automatic)
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding()
-            }
-        }
+        .quickLookPreview($selectedImage)
     }
 }
